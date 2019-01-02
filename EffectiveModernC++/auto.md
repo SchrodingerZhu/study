@@ -40,7 +40,7 @@ func = [](const std::unique_ptr<Widget>& p1,
 
 ### 恶心的`std::vector<bool>`
 
-用`auto`推断`std::vector<bool>`中的类型，会产生各种未定义行为。原文表述（有部分删改）：
+用`auto`推断`std::vector<bool>`中的类型，可能会产生各种未定义行为。原文表述（有部分删改）：
 
 > 尽管从概念上说,`std::vector<bool>`应该持有的是`bool`型别的元素, 但`std: vector<bool>`的 `operator[]`的返回值并不是容器中的一个元素的引用。它返回的是个`std::vector<bool>::reference`型别的对象(这是个嵌套在`std::vector<bool>`里面的类)。
 > 之所以要弄出个`std::vector<bool>::reference`,是因为`std::vector<bool>`做
@@ -53,7 +53,7 @@ func = [](const std::unique_ptr<Widget>& p1,
  `std: vector<bool>::reference`做了一个向`bool`的隐式型别转换(目标型别不是
  `bool&`,而是`bool`。
 
-而`auto`这里会把类型推导成`std::vector<bool>::reference`根据不同实现而产生未定义行为。
+而`auto`这里会把类型推导成`std::vector<bool>::reference`根据不同实现而存在产生未定义行为的可能性。（特别地，一个例子为读取函数返回的右值`vector`。）
 
 **拓展**:
 
