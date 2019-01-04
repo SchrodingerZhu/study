@@ -164,4 +164,25 @@ auto while = false;
 Color c = Color::white;
 ```
 
-(未完待续)
+要将枚举量转换成其他数值类型，需要强制类型转换（如使用`static_cast`）.
+
+还有一个特性，那就是枚举类可以在枚举变量前声明。实际上原来的也可以，但是会存在后期改变枚举量底层型别的问题，导致编译上的复杂度上升。但是限定范围的枚举的底层型别是已知的（默认为`int`），而且可以指定：
+
+```c++
+enum class Status: std::uint32_t;
+```
+
+在使用`std::tuple`时，建议仍使用普通的`enum`来更方便的作为`get`等函数的模板参数。像稍微方便一些使用限定范围的枚举，可以这样写一个泛型函数：
+```c++
+//c++14
+template <typename E>
+constexpr auto toUType(E enumerator) noexcept {
+    return static_cast<std::underlying_type_t<E>>(enumerator);
+}
+```
+
+
+
+**My OS wanna update itself, back later :)**
+
+
