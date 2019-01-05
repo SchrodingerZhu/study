@@ -245,5 +245,54 @@ bool f(double) = delete;
 
 ## 更多的const_iterator支持
 
-（未完待续）
+`C++98`下的`const_iterator`支持很不到位（而且要知道很多时候`const_iterator`到`iterator`连`reinterpret_cast`都做不到）。但是到了`C++11`，`const_iterator`的获得和使用都变得简单了。
+
+甚至连非常量容器的`cend(),cbegin()`等返回的指示位置的迭代器（用于插入删除）也是`const_iterator`了。某些最为泛化的情况（内建数组的支持）会要求使用非成员函数`begin()、end()`等在`C++11`中只支持这两个函数，所以`const_iterator`在这种情况下不适用。但是`C++14`就增添了其它函数的支持。一个很`striky`的`C++11`兼容写法是：
+
+```c++
+template <class C>
+auto cbegin(const C& container)->decltype(std::begin(container)) {
+    return std::begin(container);
+}
+```
+
+这个写法很不容易看出最后返回的是`const_iterator`（确实是，因为`std::begin()`作用于容器`const`引用返回的是`const`迭代器），但是可以用于仅支持`begin()`的容器。
+
+## noexcept
+
+`noexcept`用于标注不发射异常的函数。可以让编译器更好的生成目标代码。来看看不抛出异常的两种语法：
+
+```c++
+int f(int x) throw(); //C++98
+int f(int x) noexcept; //C++11
+```
+前者的优化就可能比后者差。这里引用原文解释：
+
+> 如果,在运行期,一个异常逸出`f`的作用域,则`f`的异常规格被违反。在`C++98`异常规格下,调用栈会开解至`f`的调用方,然后执行了一些与本条款无关的动作以后,程执行中止。而在`C++11`异常规格下,运行期行为会稍有不同:程序执行中止之前栈只是可能会开解。
+>开解调用栈和**可能**开解调用栈,这一点点区别对于代码生成造成的影响之大可能出乎人们的意料。在带有`noexcept`声明的函数中,优化器不需要在异常传出函数的前提下将执行期栈保持在可开解状态；也不需要在异常一处函数的前提下，保证其中的对象以其被构造顺序的逆序完成析构。
+
+很多函数（某些`push_back`）具有**能移动则移动，必须复制才复制**的优化，为了保证移动安全，很多时候就是采用了对`noexcept`进行检验的方式。
+
+>此校验动作相当迂回。像`std::vector::push_back`这样的函数会调用`std::move_if_noexcept`后者是`std::move`的一个变体,它会在一定条件下强制转换至右值型别, 取决于型别的移动构造函数是否带有`noexcept`声明。接下来,`std::move_if_noexcept`则会向`std::is_nothrow_move_constructible`求助,该模板特征的值由编译器根据移动构造函数是否指定了`noexcept`(或 `throw()`)来设置。
+
+**条件式`noexcept`**
+
+一下是某标准库`pair`写的`swap`函数的签名的简化版：
+
+```c++
+void swap(pair& p) noexcept(noexcept(swap(first, p.first)) &&
+							noexcept(swap(second, p.second)));
+```
+
+这种用法就是条件式`noexcept`，具体是不是`noexcept`取决于各分句是不是`noexcept`.
+
+`C++11`的`operator delete`和`operator delete[]`默认`noexcept`。显式取消默认值的方法是`noexcept(false)`.
+
+**契约**
+
+- 宽松契约函数：无前置调用条件，更适合标记`noexcept`。
+- 狭隘契约函数：有前置调用条件，调用条件被违反则导致为定义行为。
+
+**大多数函数是异常中立的**
+
 
