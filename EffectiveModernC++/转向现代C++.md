@@ -183,6 +183,67 @@ constexpr auto toUType(E enumerator) noexcept {
 
 
 
-**My OS wanna update itself, back later :)**
+## 删除函数
 
+在`C++98`环境下，移除不想使用的构造函数的方法往往是把它引入到`private`块中。问题在于这种方式还是会定义那些函数，成员函数的友元访问直到链接阶段才会报错失败。
+
+在`C++11`中，引入了`delete`关键字的新用法。可以一定程度上地解决这个问题。但是注意，把删除函数保留在`public`块里会更好的处理报错。
+
+一个特性，因为`float`在面临转向`int`还是`double`时会优先选择`double`，以下这种写法会同时禁用掉所有的浮点数类型：
+
+```c++
+bool f(int);
+bool f(double) = delete;	
+```
+
+另外，`delete`h还可以用来删除模板的特例化，而`private`是做不到的。
+
+## override 声明
+
+首先来看看虚函数改写的层层要求：
+
+- 基类中的函数必须是虚函数
+
+- 基类和派生类中的函数名称必须完全相同（析构函数除外）
+
+- 基类和派生类中函数形参的类别必须完全相同
+
+- 基类和派生类中函数的常量性必须完全相同
+
+- 类和派生类中函数的返回值和异常规格必须兼容
+
+- **`C++11`：**基类和派生类函数引用修饰词必须完全相同。
+
+  引用修饰词是`C++11`引入的比较鲜为人知的语言特性，用来区分该函数被左值。一个常用的场景是获取右值对象的内部字段时，直接移动往往是最好的选择，为了达到这一点，对右值调用进行区别处理，返回移动后的右值。
+
+  实例还是右值实例调用。示例如下：
+
+  ```c++
+  class Widget {
+      public: 
+      void doWork() &; // function_1, for left value
+      void doWork() &&; // function_2, for right value
+  };
+  
+  Widget makeWidget(); //Class Factory
+  Weight w;
+  
+  w.doWork(); // call function_1
+  makeWidget().doWork(); //call function_2
+  ```
+
+  重写条件多而复杂，极易出错。因此建议在重写虚函数的时候加上`override`关键字，迫使编译器检查是否真正进行了重写。
+
+  ```c++
+  class Foo: public Bar {
+      public: 
+      virtual void func() override;
+  };
+  ```
+
+  `C++11`实际上引入了两个**语境关键词**——`override`和`final`。语境关键词的意思是只在函数签名、类签名末尾等地方才会被识别为关键词。因此仍可以使用`override`为函数名。（`final`用于禁止虚函数被改写或者类被派生）。
+
+## 更多的const_iterator支持
+
+（未完待续）
 
