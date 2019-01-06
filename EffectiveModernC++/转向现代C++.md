@@ -295,4 +295,60 @@ void swap(pair& p) noexcept(noexcept(swap(first, p.first)) &&
 
 **大多数函数是异常中立的**
 
+## constexpr
+
+### constexpr对象
+
+`constexpr`对象意味着`const`且编译期已知。声明为`constexpr`可以用来让编译器检查一些需有编译期值的对象。
+
+### constexpr函数
+
+行为比较复杂，传参编译期已知，则函数值在编译期产生；否则运行时产生输出。但单纯这样理解是不到位的。
+
+书上解释：
+> -  `constexpr`函数可以用在要求编译期常量的语境中。在这样的语境中,若你传给
+个 `constexpr`函数的实参值是在编译期已知的,则结果也会在编译期间计算出
+来。如果任何一个实参值在编译期未知,则你的代码将无法通过编译。
+>- 在调用 `constexpr`函数时,若传入的值有一个或多个在编译期未知,则它的运作
+方式和普通函数无异,亦即它也是在运行期执行结果的计算。这意味着,如果函
+数执行的是同样的操作,仅仅应用的语境一个是要求编译期常量的,一个是用于
+所有其他值的话,那就不必写两个函数。 `constexpr`函数就可以同时满足所有需求。
+
+### 编译期求幂的一个示例
+
+#### C++11
+
+`C++11`要求`constexpr`函数不能有超过一个的可执行语句，写法为：
+
+```c++
+constexpr int pow(int base, int exp) noexcept {
+    return (exp == 0 ? 1 : base * pow(basem exp - 1));
+}
+```
+
+#### C++14
+
+`C++14`极大地放宽了限制，所以可以这样实现：
+
+```c++
+constexpr int pow(int base, int exp) noexcept {
+    auto result = 1;
+    while(exp){
+        if(exp & 1){
+            result *= base;
+        }
+        base *= base;
+        exp >>= 1;
+    }
+    return result;
+}
+```
+
+### 其他注意事项
+
+- `constexpr`函数仅限于传入和返回支持字面量的类型，因为这种类型可以持有编译期决议的值。在`C++11`中，内建类型除了`void`都符合这个要求。
+- 用户定义字面量类型，可以在构造函数和其他成员函数前面标注`constexpr`.这些函数也可以互相调用。
+- `C++11`的`constexpr`成员函数被隐式声明为`const`，返回默认`void`，但`C++14`取消了限制。
+
+
 
