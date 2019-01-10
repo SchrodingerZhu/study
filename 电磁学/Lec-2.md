@@ -1,4 +1,4 @@
-# Lec-2 More on Change and Field
+# Lec-2 More on Charge and Field
 
 - Conservation
 - Distribution in Atoms
@@ -50,40 +50,44 @@ $$
     - $|r| = \sqrt{x^2  + y^2 + z^2}$
 
     - To calculate $E_+ $, do coordinate transformation to the positive charge.
-      $$
-      \begin{cases}
-      x' = x - a\\
-      y' = y\\
-      z' = z\\
-      \end{cases}
-      $$
+
+$$
+\begin{cases}
+x' = x - a\\
+y' = y\\
+z' = z\\
+\end{cases}
+$$
 
 
-      $|BP| = \sqrt{(x- a)^2 + y^2  +z^2}$, 
 
-      $\vec {\mathbf {E}_p} = \frac{q}{4\pi\epsilon|BP|^2}$
-      $$
-      \begin{cases}
-      E_x = E_p\sin\theta \cos\phi \\
-      E_y = E_p\cos\theta \\
-      E_z = E_p\sin\theta\sin\phi \\
-      \sin \theta = \frac{\sqrt{x'^2 + z'^2}}{|BP|} \\
-      \cos \theta = \frac{y'}{|BP|} \\
-      \sin \phi = \frac{z'}{\sqrt{x'^2 + x'^2}} \\
-      \cos \phi = \frac{x'}{\sqrt{x'^2 + z'^2}} \\
-      \end{cases}
-      \Rightarrow
-      \begin{cases}
-      E_x = \frac{q}{4\pi\epsilon|BP|^2} \frac{x'}{|BP|} \\
-      E_y = \frac{q}{4\pi\epsilon|BP|^2} \frac{y'}{|BP|} \\
-      E_z = \frac{q}{4\pi\epsilon|BP|^2} \frac{z'}{|BP|} \\
-      \end{cases}
-      \Rightarrow E_+ = \frac{q}{4\pi\varepsilon}\frac{(x - a)\hat i + y\hat j + z\hat k} {[(x-a)^2 + y^2 + z^2]^\frac{3}{2}}
-      $$
 
-      $$
+
+$|BP| = \sqrt{(x- a)^2 + y^2  +z^2}$, 
+​    
+$\vec {\mathbf {E}_p} = \frac{q}{4\pi\epsilon|BP|^2}$
+$$
+\begin{cases}
+E_x = E_p\sin\theta \cos\phi \\
+E_y = E_p\cos\theta \\
+E_z = E_p\sin\theta\sin\phi \\
+\sin \theta = \frac{\sqrt{x'^2 + z'^2}}{|BP|} \\
+\cos \theta = \frac{y'}{|BP|} \\
+\sin \phi = \frac{z'}{\sqrt{x'^2 + x'^2}} \\
+\cos \phi = \frac{x'}{\sqrt{x'^2 + z'^2}} \\
+\end{cases}
+\Rightarrow
+\begin{cases}
+E_x = \frac{q}{4\pi\epsilon|BP|^2} \frac{x'}{|BP|} \\
+E_y = \frac{q}{4\pi\epsilon|BP|^2} \frac{y'}{|BP|} \\
+E_z = \frac{q}{4\pi\epsilon|BP|^2} \frac{z'}{|BP|} \\
+\end{cases}
+\Rightarrow E_+ = \frac{q}{4\pi\varepsilon}\frac{(x - a)\hat i + y\hat j + z\hat k} {[(x-a)^2 + y^2 + z^2]^\frac{3}{2}}
+$$
+
+$$
       E_- = -\frac{q}{4\pi\varepsilon}\frac{(x + a)\hat i + y\hat j + z\hat k}{{[(x+a)^2 + y^2 + z^2]^\frac{3}{2}}}
-      $$
+$$
 
 
 $$
