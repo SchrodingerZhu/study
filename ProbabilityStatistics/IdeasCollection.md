@@ -12,3 +12,23 @@ In **STA2001**, actually the abstraction is the same but the method to calculate
 $$
 \left(\begin{array}{c}x + y - 1\\x, y - 1\end{array}\right) = \frac{(x + y - 1)!}{x!(y - 1)!}
 $$
+
+## Different Endings of One Game
+
+We may sometimes meet this kind of problem: A game will end if several events happen, and we want to calculate the probability of ending in each kind of event.
+
+I first figure out a direct way to solve it, suppose the ending events are $A_1, A_2, A_n, \cdots$ , then each time the probability of not ending in this turn is:
+$$
+P_{not} = 1 - P(\bigcup A_i)
+$$
+Therefore, we can just calculate the probability of ending with $A_i$ as following:
+$$
+P(\mathbf {End\ with\ A_i}) = \sum_{t = 0}^\infty (P(A_i)P_{not}^t)
+$$
+This is convergent and can be easily calculated out.
+
+However, if we change our mind into conditional probability, we can get:
+$$
+P(\mathbf {End\ with\ A_i}) = P(A_i | \mathbf {End}) = \frac{P(A_i)}{P(\bigcup A_t)}
+$$
+This is because when focusing on ending, it is not important to know the game will go on how many turns.
