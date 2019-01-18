@@ -19,7 +19,7 @@ $$
 P(A) = P(A\cap(B\cup B')) = P(A\cap B) + P(A\cap B') \Rightarrow P(A)(1 - P(B)) = P(A\cap B')
 $$
 
-## Definition 
+### Definition (For Three And More Events)
 
 Events $A,\ B,\ C$ are mutually independent if and only if:
 
@@ -38,9 +38,62 @@ Events $A,\ B,\ C$ are mutually independent if and only if:
    $$
 
 
+
+
+
 Mutual independence can be extended to four or more events: Each pair, triple, quartet of the events are independent and moreover,
 $$
 P(\bigcap A_i) = \prod A_i
 $$
-**(To Be Continued)**
+### Properties (For Three Events)
 
+####  $A$ and $(B ∩ C)$ independent
+
+**Proof**
+$$
+P(A\cap (B\cap C)) = P(A \cap B \cap C) = P(A) P(B)P(C) = P(A)P(B\cap C)
+$$
+
+####  $A'$ and $(B ∩ C')$ independent
+**Proof**
+$$
+\mathbf{A'\ and\ (B\cap C')\ are\ independent \iff A\ and\ (B\cap C')\ are\ independent}\\
+P(A\cap B) = P(A\cap B) = P(A\cap((B\cap C')\cup (B \cap C))) = P(A\cap B \cap C') + P(A \cap B \cap C)\\ 
+\therefore P(A \cap(B \cap C')) = P(A \cap B)(1 - P(C)) = P(A)P(B)P(C') = P(A)P(B\cap C')
+$$
+
+####  $A$ and $(B ∪ C)$ independent
+
+**Proof**
+$$
+\begin{aligned}
+P(A\cap(B \cup C)) &= P((A\cap B)\cup(A\cap C))\\
+&= P(A\cap B) + P(A\cap C) - P(A\cap B\cap C)\\
+&= P(A)P(B) + P(A)P(C) - P(A)P(B)P(C)\\
+&= P(A)(P(B) + P(C) - P(B)(C))\\
+&= P(A)(P(B) + P(C) - P(B\cap C)) \\
+&= P(A)P(B\cup C)
+\end{aligned}
+$$
+
+#### $A'$, $B'$, $C'$ independent
+
+**Proof**
+
+- It is trivial to see $A'$, $B'$, $C'$ are pairwise independent.
+
+
+- $$
+  P(A' \cap B'\cap C') = P(A'\cap(B\cup C)')  = P(A')P((B\cup C)') = P(A')P(B')P(C')
+  $$
+
+
+## Bayes
+
+$$
+P(B_k | A) = \frac{P(B_k)P(A | B_k)}{P(A)} =  \frac{P(B_k)P(A | B_k)}{\sum P(B_i)P(A|B_i)}
+$$
+
+- $P(B_k)$ prior probability.
+- $P(B_k|A)​$ posterior probability.
+- $P(A | B_k)$ likelihood of $(B_k, A)$ is called a data.  
