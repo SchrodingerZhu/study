@@ -284,3 +284,42 @@ Let $n = qm + r$ (Division Thm).
 - $r > 0$, transform to
   $(n - q - 1) = q(m - 1) + (r - 1)$
 Therefore, we keep the same $q$ and get an averaged division.
+
+To get the number of items in $k$-th group:
+$$
+\left\lceil\frac{n - k +1}{m}\right\rceil
+$$
+
+Non-increasing partition:
+$$
+n = \sum_{k = 1}^m\left\lceil\frac{n-k + 1}{m}\right\rceil
+$$
+
+Non-decreasing partition:
+$$
+n = \sum_{k = 1}^m\left\lfloor\frac{n-k + 1}{m}\right\rfloor
+$$
+
+Actually, $\forall x \in \mathbb R$,
+$$
+\lfloor mx \rfloor = \sum_{k =0}^{m - 1}\left\lfloor x + \frac{k}{m}\right\rfloor
+$$
+
+## Floor/Ceiling Sums
+### Sum Problem
+$$
+\sum_{0\le k \lt n} \left \lfloor \sqrt k \right \rfloor
+$$
+We can expand the sum,
+$$
+\begin{aligned}
+\sum_{0\le k \lt n} \left \lfloor \sqrt k \right \rfloor &= \sum_{k, m \ge 0} m[m^2 \le k \lt (m + 1)^2 \le n] \\
+&+ \sum_{k, m \ge 0} m[m^2 \le k \lt n \lt (m + 1)^2 ]
+\end{aligned}
+$$
+Suppose $n = a^2$, the second summation will become zero, and the first one can be handled:
+$$
+\begin{aligned}
+\sum_{0\le k \lt n} \left \lfloor \sqrt k \right \rfloor &= \sum_{k, m \ge 0} m[m^2 \le k \lt (m + 1)^2 \le n] \\
+\end{aligned}
+$$
