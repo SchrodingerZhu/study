@@ -148,6 +148,139 @@ $$
 $$
 The proof is done.
 
+## Floor/Ceiling Recurrence
 
+### Knuth Number
+$$
+\begin{aligned}
+    K_0 &= 1 \\
+    K_{n + 1} &= 1 + \min (2K_{\lfloor n / 2 \rfloor}, 3K_{\lfloor n / 3 \rfloor})
+\end{aligned}
+$$
 
-***(To be continued.)***
+### General Form
+
+$$
+n = \lfloor n / 2 \rfloor + \lceil n / 2 \rceil
+$$
+
+For Merge Sort.
+
+$$
+\begin{aligned}
+    f(1) & = 0 \\
+    f(n) & = f(\lfloor n / 2\rfloor) + f(\lceil n / 2 \rceil) + n - 1, n \gt 1
+\end{aligned}
+$$
+
+For Josephus Problem,
+
+$$
+\begin{aligned}
+    J(1) &= 1\\
+    J(n) &= 2J(\lfloor n / 2 \rfloor) - (-1)^n
+\end{aligned}
+$$
+
+If we change to condition to "every three persons",
+
+$$
+J_3(n) = \left(\left\lceil \frac{3}{2} J_3\left(\left\lfloor\frac{2}{3}n\right\rfloor\right) +a_n \right\rceil \text{mod } n\right) + 1
+$$
+
+where $a_n = -2, 1, -\frac{1}{2}$ when $n \text{ mod } 3 = 0, 1, 2$
+
+This is hard to solve.
+
+However, we can use another method. Whenever a man is executed, we distribute new numbers for the remaining. $1$, $2$, $4$ to $n + 1, n + 2, n + 3$ and so on. (Or generally, $3k + 1, 3k + 2$ to $n + 2k + 1, n + 2k + 2$)
+
+The last number should be $3n$.
+
+Let $N \gt n$, then $N$ must has an original number. $N$ must be like $n + 2k + 1$ or $n + 2k + 2$. Therefore,
+$$
+k = \lfloor (N - n - 1) / 2\rfloor
+$$
+Since the number $N$ must be transferred from $3k + 1$ or $3k + 2$, therefore,
+$$
+N_0 = 3k + (N - n -2k) = k + N - n
+$$ 
+
+In algorithm view, 
+```
+N = 3n;
+while N > n do N = floor((N - n - 1) / 2) + N - n;
+J(n) = N
+```
+To simplify the form, let $D = 3n + 1 - N$
+
+$$
+\begin{aligned}
+D &:= 3n + 1 - \left(\left\lfloor\frac{(3n + 1 - D) - n - 1}{2}\right\rfloor + (3n + 1 - D ) - n\right) \\
+  &:=  n + D - \left\lfloor\frac{2n - D}{2}\right\rfloor\\
+  &:= D - \left\lfloor\frac{-D}{2}\right\rfloor \\
+  &:= D + \left\lceil\frac{D}{2}\right\rceil\\
+  &:= \left\lceil\frac{3}{2}D\right\rceil
+\end{aligned}
+$$
+
+In algorithm view,
+
+```
+D := 1;
+while D <= 2n do D := ceil(3D/2);
+J(n) = 3n + 1 - D
+```
+More generally, for any sequence defined as the following,
+
+$$
+\begin{aligned}
+    D_0 &= 1\\
+    D_n &= \left\lceil\frac{q}{q - 1} D_{n - 1}\right\rceil, n \gt 0  
+\end{aligned}
+$$
+
+We can calculated it by
+```
+D := 1;
+while D <= (q - 1) n do D := ceil(qD / q - 1);
+J(n) = qn + 1 - D
+```
+
+## 'MOD': The Binary Operation
+$$
+x \text{ mod }y = x - y \lfloor x / y \rfloor, y \ne 0
+$$
+
+$$
+x \text { mumble} y = y \lceil x / y \rceil - x
+$$
+
+### Distribution Law
+$$
+c(x \text{ mod } y) = (cx) \text{ mod } (cy) 
+$$
+
+**Proof**
+
+$$
+c (x\text{ mod }y) = c(x - y\lfloor x/ y \rfloor) = cx - cy\lfloor cx / cy \rfloor = cx \text{ mod } cy
+$$
+
+### Application: Average Grouping
+separate $n$ items into $m$ lines, with $n \text{ mod } m$ long lines and $n \text{ mumble } m$ short lines.
+
+Algorithm:
+```
+while m > 0:
+    put ceil(n / m) items into one group
+    n = n - ceil(n / m)
+    m = m - 1
+```
+**Proof**
+
+Let $n = qm + r$ (Division Thm).
+- $r = 0$, trivially transform to
+  $(n - 1) = q(m - 1)$
+- $r > 0$, transform to
+  $(n - q - 1) = q(m - 1) + (r - 1)$
+Therefore, we keep the same $q$ and get an averaged division.
