@@ -321,5 +321,40 @@ Suppose $n = a^2$, the second summation will become zero, and the first one can 
 $$
 \begin{aligned}
 \sum_{0\le k \lt n} \left \lfloor \sqrt k \right \rfloor &= \sum_{k, m \ge 0} m[m^2 \le k \lt (m + 1)^2 \le n] \\
+&= \sum_{k, m \ge 0} m[m^2 \le k \lt (m + 1)^2 \le a^2] \\
+&= \sum_{k, m \ge 0} m\left((m + 1)^2 - m^2\right)[m + 1\le a] \\
+&= \sum_{k, m \ge 0} m\left(2m + 1\right)[m \lt a] \\
+&= \sum_{k, m \ge 0} \left(2m^{\underline 2} + 3m^{\underline 1}\right)[m \lt a] \\
+&= \sum_0^a \left(2m^{\underline 2} + 3m^{\underline 1}\right) \delta m \\
+&= \frac{1}{6}a(a - 1)(4a + 1)
 \end{aligned}
+$$
+In general cases, let $a = \lfloor \sqrt n \rfloor$, what a have lost is just $(n - a^2)a$. Therefore, the final answer is:
+$$
+\sum_{0 \le k \lt n} \left\lfloor\sqrt k \right\rfloor = na - \frac{1}{3}a^3 - \frac{1}{2}a^2 - \frac{1}{6}a, a = \left\lfloor\sqrt n\right\rfloor
+$$
+Another method is to substitute $\lfloor x\rfloor$ by $\sum_j[1 \le j \le x]$, (also let $a^2 = n$)
+$$
+\begin{aligned}
+\sum_{0\le k \lt n} \left \lfloor \sqrt k \right \rfloor &= \sum_{j, k}[1\le j \le k][0 \le k \lt a^2] \\
+&= \sum_{1\le j \lt a}\sum_{k}[j^2 \le k \lt a^2] \\
+&= \sum_{1\le j \lt a}(a^2 - j^2) = a^3 - \frac{1}{3}a(a + \frac{1}{2})(a + 1)
+\end{aligned}
+$$
+
+### A Lemma from Bohl, Sierpinski & Weyl
+$$
+\forall \alpha \in \mathbb R \wedge \alpha \notin \mathbb Q, \lim_{n \to \infty} \frac{1}{n} \sum_{0\le k\lt n}f(\{k\alpha\}) = \int_{0}^1f(x)\text dx
+$$
+The lemma can be proved using:
+$$
+f_v = [0\le x \lt v]
+$$
+We now explore we $n$ is large enough, what is the discrepancy between $nv$ and
+$$
+\sum_{0\le k \lt n}[\{k\alpha\} \lt v]
+$$
+We define discrepancy $D(\alpha, n)$ as the maximum value of the following expression ($v \in [0, 1]$):
+$$
+s(\alpha, n, v) = \sum_{0\le k \lt n}([\{k\alpha\} < v] - v)
 $$
