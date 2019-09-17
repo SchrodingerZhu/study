@@ -358,3 +358,23 @@ We define discrepancy $D(\alpha, n)$ as the maximum value of the following expre
 $$
 s(\alpha, n, v) = \sum_{0\le k \lt n}([\{k\alpha\} < v] - v)
 $$
+This can be transformed into:
+$$
+\begin{aligned}
+    \sum_{0\le k\lt n}([\{k\alpha\} \leq  v] - v)
+&=  \sum_{0\le k\lt n}(\lfloor k\alpha\rfloor - \lfloor k\alpha - v\rfloor - v)
+\end{aligned}
+$$
+
+## Another Application
+$$
+\sum_{0\le k \lt m} \left\lfloor\frac{nk + x}{m}\right\rfloor, m \in Z^+, n \in Z
+$$
+The close form is:
+$$
+d\left\lfloor\frac{x}{d}\right\rfloor + \frac{m - 1}{2}n + \frac{d- m}{2}
+$$
+So there is a symmetry between $m$ and $n$:
+$$
+\sum_{0\le k \lt m} \left\lfloor\frac{nk + x}{m}\right\rfloor =  \sum_{0\le k \lt n} \left\lfloor\frac{mk + x}{n}\right\rfloor 
+$$
